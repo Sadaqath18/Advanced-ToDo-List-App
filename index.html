@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced To-Do List</title>
+    <meta
+      name="description"
+      content="Advanced to-do list with categories, due dates, and offline support"
+    />
+
+    <!-- Better theme color support -->
+    <meta
+      [name="theme-color"
+      ]
+      content="#667eea"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      [name="theme-color"
+      ]
+      content="#000000"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="./manifest.json" />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNzY0YmE2Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik05IDE2LjJMNC44IDEybC0xLjQgMS40TDkgMTlsLTUuNiA1LjYgMS40IDEuNEw5IDE2LjJabTcuNC05LjZMMTggOS40IDE1IDEybDMtM0wyMSA2bC0xLjQtMS40TDE2IDE2LjJsLTEuNCAxLjQgMS40IDEuNCA0LjgtNC44eiIvPgo8L3N2Zz4KPC9zdmc+"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* Screen-reader-only helper */
+      .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="header-content">
+          <h1 class="app-title">
+            <i class="fas fa-tasks"></i>
+            Advanced To-Do List
+          </h1>
+          <button
+            class="dark-mode-toggle"
+            id="darkModeToggle"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="task-input-section">
+          <form class="task-form" id="taskForm">
+            <div class="input-group">
+              <label for="taskInput" class="visually-hidden"
+                >Task description</label
+              >
+              <input
+                type="text"
+                id="taskInput"
+                class="task-input"
+                placeholder="What needs to be done?"
+                required
+                aria-label="Task description"
+              />
+
+              <label for="categorySelect" class="visually-hidden"
+                >Choose category</label
+              >
+              <select
+                id="categorySelect"
+                class="category-select"
+                aria-label="Choose category"
+              >
+                <option value="personality">📋 Personal</option>
+                <option value="work">💼 Work</option>
+                <option value="urgent">🔥 Urgent</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="dueDateInput" class="visually-hidden">Due date</label>
+              <input
+                type="datetime-local"
+                id="dueDateInput"
+                class="due-date-input"
+                aria-label="Due date"
+              />
+              <button type="submit" class="add-btn">
+                <i class="fas fa-plus"></i>
+                Add Task
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="filters-section">
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="personal">
+              📋 Personal
+            </button>
+            <button class="filter-btn" data-filter="work">💼 Work</button>
+            <button class="filter-btn" data-filter="urgent">🔥 Urgent</button>
+            <button class="filter-btn" data-filter="completed">
+              ✅ Completed
+            </button>
+          </div>
+          <div class="stats">
+            <span id="taskStats" class="task-stats">0 tasks</span>
+          </div>
+        </section>
+
+        <section class="tasks-section">
+          <div class="task-list" id="taskList">
+            <!-- Tasks will be dynamically added here -->
+          </div>
+          <div class="empty-state" id="emptyState">
+            <i class="fas fa-clipboard-check"></i>
+            <h3>No tasks yet</h3>
+            <p>Add your first task above to get started!</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Reminder Modal -->
+    <div class="modal" id="reminderModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>📅 Task Reminder</h3>
+          <button
+            class="modal-close"
+            id="closeReminderModal"
+            aria-label="Close reminder"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="reminderMessage"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="dismissReminder">Got it!</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
